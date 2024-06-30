@@ -119,13 +119,15 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
+       <h1 style={{color:'black'}}>AI Health Advisor</h1>
+       <br/>
       {!isWalletConnected ? (
         <button onClick={connectWallet} className={styles.connectButton}>
           Connect Wallet
         </button>
       ) : (
         <div className={styles.form}>
-          <h1>Health Advisor</h1>
+         
           <form onSubmit={handleSubmit}>
             <label>
               Wallet Address:
