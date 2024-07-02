@@ -1,0 +1,407 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"gasEstimates": null,
+		"methodIdentifiers": {
+			"createFunctionCall(uint256,string,string)": "4b04236b",
+			"createGroqLlmCall(uint256,(string,int8,string,uint32,int8,string,uint256,string,uint256,uint256,string))": "3c1f9526",
+			"createKnowledgeBaseQuery(uint256,string,string,uint32)": "a252a951",
+			"createLlmCall(uint256)": "d89d1322",
+			"createLlmCall(uint256,(string,int8,string,uint32,int8,string,uint256,string,uint256,uint256,string,string,string))": "cbbfd0b7",
+			"createOpenAiLlmCall(uint256,(string,int8,string,uint32,int8,string,uint256,string,uint256,uint256,string,string,string))": "3c38a5f5"
+		}
+	},
+	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "functionCallbackId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "string",
+					"name": "functionType",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "functionInput",
+					"type": "string"
+				}
+			],
+			"name": "createFunctionCall",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "i",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "promptId",
+					"type": "uint256"
+				},
+				{
+					"components": [
+						{
+							"internalType": "string",
+							"name": "model",
+							"type": "string"
+						},
+						{
+							"internalType": "int8",
+							"name": "frequencyPenalty",
+							"type": "int8"
+						},
+						{
+							"internalType": "string",
+							"name": "logitBias",
+							"type": "string"
+						},
+						{
+							"internalType": "uint32",
+							"name": "maxTokens",
+							"type": "uint32"
+						},
+						{
+							"internalType": "int8",
+							"name": "presencePenalty",
+							"type": "int8"
+						},
+						{
+							"internalType": "string",
+							"name": "responseFormat",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "seed",
+							"type": "uint256"
+						},
+						{
+							"internalType": "string",
+							"name": "stop",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "temperature",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "topP",
+							"type": "uint256"
+						},
+						{
+							"internalType": "string",
+							"name": "user",
+							"type": "string"
+						}
+					],
+					"internalType": "struct IOracle.GroqRequest",
+					"name": "request",
+					"type": "tuple"
+				}
+			],
+			"name": "createGroqLlmCall",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "kbQueryCallbackId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "string",
+					"name": "cid",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "query",
+					"type": "string"
+				},
+				{
+					"internalType": "uint32",
+					"name": "num_documents",
+					"type": "uint32"
+				}
+			],
+			"name": "createKnowledgeBaseQuery",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "i",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "promptId",
+					"type": "uint256"
+				},
+				{
+					"components": [
+						{
+							"internalType": "string",
+							"name": "model",
+							"type": "string"
+						},
+						{
+							"internalType": "int8",
+							"name": "frequencyPenalty",
+							"type": "int8"
+						},
+						{
+							"internalType": "string",
+							"name": "logitBias",
+							"type": "string"
+						},
+						{
+							"internalType": "uint32",
+							"name": "maxTokens",
+							"type": "uint32"
+						},
+						{
+							"internalType": "int8",
+							"name": "presencePenalty",
+							"type": "int8"
+						},
+						{
+							"internalType": "string",
+							"name": "responseFormat",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "seed",
+							"type": "uint256"
+						},
+						{
+							"internalType": "string",
+							"name": "stop",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "temperature",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "topP",
+							"type": "uint256"
+						},
+						{
+							"internalType": "string",
+							"name": "tools",
+							"type": "string"
+						},
+						{
+							"internalType": "string",
+							"name": "toolChoice",
+							"type": "string"
+						},
+						{
+							"internalType": "string",
+							"name": "user",
+							"type": "string"
+						}
+					],
+					"internalType": "struct IOracle.LlmRequest",
+					"name": "request",
+					"type": "tuple"
+				}
+			],
+			"name": "createLlmCall",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "promptId",
+					"type": "uint256"
+				}
+			],
+			"name": "createLlmCall",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "promptId",
+					"type": "uint256"
+				},
+				{
+					"components": [
+						{
+							"internalType": "string",
+							"name": "model",
+							"type": "string"
+						},
+						{
+							"internalType": "int8",
+							"name": "frequencyPenalty",
+							"type": "int8"
+						},
+						{
+							"internalType": "string",
+							"name": "logitBias",
+							"type": "string"
+						},
+						{
+							"internalType": "uint32",
+							"name": "maxTokens",
+							"type": "uint32"
+						},
+						{
+							"internalType": "int8",
+							"name": "presencePenalty",
+							"type": "int8"
+						},
+						{
+							"internalType": "string",
+							"name": "responseFormat",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "seed",
+							"type": "uint256"
+						},
+						{
+							"internalType": "string",
+							"name": "stop",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "temperature",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "topP",
+							"type": "uint256"
+						},
+						{
+							"internalType": "string",
+							"name": "tools",
+							"type": "string"
+						},
+						{
+							"internalType": "string",
+							"name": "toolChoice",
+							"type": "string"
+						},
+						{
+							"internalType": "string",
+							"name": "user",
+							"type": "string"
+						}
+					],
+					"internalType": "struct IOracle.OpenAiRequest",
+					"name": "request",
+					"type": "tuple"
+				}
+			],
+			"name": "createOpenAiLlmCall",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		}
+	]
+}
