@@ -1,41 +1,137 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MedAIze Project
 
-## Getting Started
+## Overview
+MedAIze is a decentralized application (DApp) designed to manage patient data and fetch health advisories using an EVM smart contract and the Galadriel on-chain LLM oracle. This project utilizes Next.js for the frontend, with key features including wallet integration, patient data management, and health advisory display.
 
-First, run the development server:
+## Key Features
+- **User Wallet Integration:** Users can connect their wallets via Metamask.
+- **Patient Data Management:** Update and fetch patient data including vital signs, medical history, and laboratory results.
+- **Health Advisories:** Fetch and display health advisories received from the Galadriel on-chain LLM oracle.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Technologies Used
+- **Next.js:** For building the frontend interface.
+- **Web3.js/Ethers.js:** For blockchain interactions.
+- **Material UI:** For styling and UI components.
+- **Galadriel Oracle LLM:** For providing health advisories based on patient data.
+
+## Project Structure
+```
+medaize-project/
+├── components/
+│   ├── HealthAdvisory.js
+│   ├── PatientDashboard.js
+│   └── WalletConnect.js
+├── pages/
+│   ├── index.js
+│   ├── dashboard.js
+│   └── advisory.js
+├── utils/
+│   ├── blockchain.js
+│   └── contract.js
+├── styles/
+│   ├── globals.css
+│   └── Home.module.css
+├── public/
+│   └── images/
+├── .env.local
+├── package.json
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Smart Contract Functionalities
+The smart contract manages patient data and interacts with the Galadriel on-chain LLM oracle. Below are key functionalities:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- **encodeLaboratoryResults:** Encodes laboratory results into a JSON string.
+- **encodeDoctorNotes:** Encodes doctor notes into a JSON string.
+- **encodeStringArray:** Encodes an array of strings into a JSON array.
+- **onOracleLlmResponse:** Handles the oracle response and emits a `HealthAdvisoryReceived` event.
+- **getPatientData:** Fetches patient data for a given address.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### Smart Contract Code Snippets
+```solidity
+function encodeLaboratoryResults(LaboratoryResults memory results) internal pure returns (string memory) {
+    return string(abi.encodePacked(
+        '{"bloodTests":', encodeStringArray(results.bloodTests),
+        ',"urineTests":', encodeStringArray(results.urineTests),
+        '}'
+    ));
+}
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+function encodeDoctorNotes(DoctorNotes memory notes) internal pure returns (string memory) {
+    return string(abi.encodePacked(
+        '{"diagnosis":"', notes.diagnosis,
+        '","treatmentPlan":"', notes.treatmentPlan,
+        '","medicationsPrescribed":"', notes.medicationsPrescribed,
+        '","followUpInstructions":"', notes.followUpInstructions,
+        '"}'
+    ));
+}
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+function encodeStringArray(string[] memory array) internal pure returns (string memory) {
+    string memory result = "[";
+    for (uint i = 0; i < array.length; i++) {
+        result = string(abi.encodePacked(result, '"', array[i], '"'));
+        if (i < array.length - 1) {
+            result = string(abi.encodePacked(result, ','));
+        }
+    }
+    result = string(abi.encodePacked(result, "]"));
+    return result;
+}
 
-## Learn More
+function onOracleLlmResponse(
+    string memory response,
+    address patientAddress
+) public onlyOracle {
+    emit HealthAdvisoryReceived(patientAddress, response);
+}
 
-To learn more about Next.js, take a look at the following resources:
+function getPatientData(address patientAddress) public view returns (Patient memory) {
+    return patients[patientAddress];
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Running the DApp
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Prerequisites
+Ensure you have the following installed:
+- Node.js
+- npm or yarn
+- Metamask extension in your browser
 
-## Deploy on Vercel
+### Steps to Run
+1. **Clone the Repository:**
+    ```bash
+    git clone https://github.com/yourusername/medaize-project.git
+    cd medaize-project
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Install Dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# health-advisor-app
+3. **Environment Variables:**
+    Create a `.env.local` file in the root directory and add the following:
+    ```
+    NEXT_PUBLIC_INFURA_ID=your_infura_project_id
+    NEXT_PUBLIC_CONTRACT_ADDRESS=your_smart_contract_address
+    ```
+
+4. **Run the Development Server:**
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## Contributing
+We welcome contributions to the MedAIze project. Please open an issue or submit a pull request on GitHub.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
