@@ -1,139 +1,130 @@
-# MedAIze Project
 
----
+# MedAize
+----
+MedAize is a decentralized application (DApp) designed to manage patient data and fetch health advisories using blockchain technology. It integrates with the Galadriel on-chain LLM oracle to provide up-to-date health advisories based on patient data.
 
 ## Overview
-MedAIze is a decentralized application (DApp) designed to manage patient data and fetch health advisories using an EVM smart contract and the Galadriel on-chain LLM oracle. This project utilizes Next.js for the frontend, with key features including wallet integration, patient data management, and health advisory display.
+---
+
+MedAize utilizes Next.js for the frontend, providing a seamless user experience. Users can securely connect their wallets via MetaMask, manage their patient data, and receive health advisories from the Galadriel oracle.
 
 ## Key Features
-- **User Wallet Integration:** Users can connect their wallets via Metamask.
-- **Patient Data Management:** Update and fetch patient data including vital signs, medical history, and laboratory results.
-- **Health Advisories:** Fetch and display health advisories received from the Galadriel on-chain LLM oracle.
+
+- **User Wallet Integration:** Securely connect your wallet using MetaMask to access the DApp.
+- **Patient Data Management:** Update and fetch patient data, including vital signs, medical history, and laboratory results.
+- **Health Advisories:** Receive real-time health advisories based on patient data fetched from the Galadriel on-chain LLM oracle.
+
+## Potential Use Cases
+
+- **Personal Health Monitoring:** Individuals can use MedAize to track and manage their health data over time, receiving personalized health advisories based on their medical history and current health metrics.
+  
+- **Medical Research:** Researchers can access anonymized patient data stored on the blockchain through MedAize, facilitating studies on population health trends and treatment outcomes while maintaining patient privacy.
+
+- **Healthcare Providers:** Hospitals and clinics can integrate MedAize to streamline patient data management, ensuring accurate and up-to-date medical records while leveraging blockchain for data security and integrity.
+
+- **Public Health Initiatives:** Governments and public health organizations can utilize MedAize to disseminate health advisories and track disease outbreaks in real-time, enhancing public health response and communication.
 
 ## Technologies Used
-- **Next.js:** For building the frontend interface.
-- **Web3.js/Ethers.js:** For blockchain interactions.
+
+- **Next.js:** React framework for building the frontend interface.
+- **Web3.js/Ethers.js:** Libraries for interacting with Ethereum blockchain.
 - **Material UI:** For styling and UI components.
-- **Galadriel Oracle LLM:** For providing health advisories based on patient data.
+- **Galadriel Oracle LLM:** Provides health advisories based on patient data.
 
 ## Project Structure
+
 ```
-medaize-project/
-├── components/
-│   ├── HealthAdvisory.js
-│   ├── PatientDashboard.js
-│   └── WalletConnect.js
-├── pages/
-│   ├── index.js
-│   ├── dashboard.js
-│   └── advisory.js
-├── utils/
-│   ├── blockchain.js
-│   └── contract.js
-├── styles/
-│   ├── globals.css
-│   └── Home.module.css
-├── public/
-│   └── images/
-├── .env.local
+~/MedAize/
+├── README.md
+├── contracts/
+│   ├── HealthAdvisor.sol        # Smart contract managing patient data and health advisories
+│   └── artifacts/
+│       ├── IOracle.json         # Compiled ABI for the Oracle smart contract
+│       ├── IOracle_metadata.json
+│       └── build-info/
+│           └── 7d3d75e432c15935f33860e54fe3c97d.json
+├── jsconfig.json
+├── lib/
+│   ├── contract.js              # JavaScript utility for interacting with Ethereum smart contracts
+│   └── web3.js                  # Web3 setup and configuration
+├── next.config.mjs
+├── package-lock.json
 ├── package.json
-└── README.md
+├── public/
+│   ├── favicon.ico
+│   ├── next.svg
+│   └── vercel.svg
+└── src/
+    ├── components/
+    │   ├── HealthAdvisory.js    # React component for displaying health advisories
+    │   ├── PatientDashboard.js  # React component for managing patient data
+    │   └── WalletConnect.js     # React component for wallet connection
+    ├── pages/
+    │   ├── _app.js               # Custom Next.js app component
+    │   ├── _document.js          # Custom Next.js document component
+    │   ├── abi.js                # ABI definitions for smart contracts
+    │   ├── advisory.js           # Page for displaying health advisories
+    │   ├── api/
+    │   │   └── hello.js          # Example API route (placeholder)
+    │   ├── dashboard.js          # Page for patient dashboard
+    │   └── index.js              # Index page
+    ├── styles/
+    │   ├── Home.module.css       # CSS module for homepage styles
+    │   └── globals.css           # Global CSS styles
+    └── utils/
+        ├── blockchain.js         # Utility functions for blockchain interactions
+        └── contract.js           # Contract-related utility functions
 ```
 
-## Smart Contract Functionalities
-The smart contract manages patient data and interacts with the Galadriel on-chain LLM oracle. Below are key functionalities:
-
-- **encodeLaboratoryResults:** Encodes laboratory results into a JSON string.
-- **encodeDoctorNotes:** Encodes doctor notes into a JSON string.
-- **encodeStringArray:** Encodes an array of strings into a JSON array.
-- **onOracleLlmResponse:** Handles the oracle response and emits a `HealthAdvisoryReceived` event.
-- **getPatientData:** Fetches patient data for a given address.
-
-### Smart Contract Code Snippets
-```solidity
-function encodeLaboratoryResults(LaboratoryResults memory results) internal pure returns (string memory) {
-    return string(abi.encodePacked(
-        '{"bloodTests":', encodeStringArray(results.bloodTests),
-        ',"urineTests":', encodeStringArray(results.urineTests),
-        '}'
-    ));
-}
-
-function encodeDoctorNotes(DoctorNotes memory notes) internal pure returns (string memory) {
-    return string(abi.encodePacked(
-        '{"diagnosis":"', notes.diagnosis,
-        '","treatmentPlan":"', notes.treatmentPlan,
-        '","medicationsPrescribed":"', notes.medicationsPrescribed,
-        '","followUpInstructions":"', notes.followUpInstructions,
-        '"}'
-    ));
-}
-
-function encodeStringArray(string[] memory array) internal pure returns (string memory) {
-    string memory result = "[";
-    for (uint i = 0; i < array.length; i++) {
-        result = string(abi.encodePacked(result, '"', array[i], '"'));
-        if (i < array.length - 1) {
-            result = string(abi.encodePacked(result, ','));
-        }
-    }
-    result = string(abi.encodePacked(result, "]"));
-    return result;
-}
-
-function onOracleLlmResponse(
-    string memory response,
-    address patientAddress
-) public onlyOracle {
-    emit HealthAdvisoryReceived(patientAddress, response);
-}
-
-function getPatientData(address patientAddress) public view returns (Patient memory) {
-    return patients[patientAddress];
-}
-```
-
-## Running the DApp
+## Setting Up
 
 ### Prerequisites
-Ensure you have the following installed:
-- Node.js
-- npm or yarn
-- Metamask extension in your browser
 
-### Steps to Run
+- Node.js installed on your machine
+- npm or yarn package manager
+- MetaMask browser extension
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory with the following environment variables:
+
+```
+NEXT_PUBLIC_GALADRIEL_ORACLE_ADDRESS=your_galadriel_oracle_address
+PRIVATE_KEY=your_wallet_private_key
+```
+
+Replace `your_galadriel_oracle_address` with the actual address of the Galadriel oracle contract, and `your_wallet_private_key` with the private key of your wallet for blockchain interactions.
+
+### Running the DApp
+
 1. **Clone the Repository:**
-    ```bash
-    git clone https://github.com/yourusername/medaize-project.git
-    cd medaize-project
-    ```
+   ```bash
+   git clone https://github.com/gethsun1/MedAize-.git
+   cd MedAize-
+   ```
 
 2. **Install Dependencies:**
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-3. **Environment Variables:**
-    Create a `.env.local` file in the root directory and add the following:
-    ```
-    NEXT_PUBLIC_INFURA_ID=your_infura_project_id
-    NEXT_PUBLIC_CONTRACT_ADDRESS=your_smart_contract_address
-    ```
+3. **Start the Development Server:**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-4. **Run the Development Server:**
-    ```bash
-    npm run dev
-    # or
-    yarn dev
-    ```
-    Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+4. **Open in Browser:**
+   Open [http://localhost:3000](http://localhost:3000) to view the application in your browser.
 
 ## Contributing
-We welcome contributions to the MedAIze project. Please open an issue or submit a pull request on GitHub.
+
+Contributions to MedAize are welcome! Please open an issue or submit a pull request on GitHub.
 
 ## License
-This project is licensed under the MIT License. See the LICENSE file for details.
 
----
+This project is licensed under the MIT License. See the LICENSE file for details.
+```
