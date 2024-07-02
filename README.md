@@ -1,5 +1,7 @@
 # MedAIze Project
 
+---
+
 ## Overview
 MedAIze is a decentralized application (DApp) designed to manage patient data and fetch health advisories using an EVM smart contract and the Galadriel on-chain LLM oracle. This project utilizes Next.js for the frontend, with key features including wallet integration, patient data management, and health advisory display.
 
